@@ -1,0 +1,28 @@
+project_name: vault-health-checker
+
+builds:
+  -
+    binary: vault-health-checker
+    env:
+      - CGO_ENABLED=0
+
+    goos:
+      - darwin
+      - freebsd
+      - linux
+      - windows
+
+    goarch:
+      - amd64
+
+    main: .
+
+git:
+  short_hash: true
+
+archive:
+  name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+  format: zip
+
+snapshot:
+  name_template: SNAPSHOT-{{.Timestamp}}-{{.Commit}}
