@@ -1,0 +1,22 @@
+sudo: false
+
+language: go
+
+go:
+  - 1.x
+
+git:
+  depth: 1
+
+# Only build with the code in vendor/
+install: true
+
+notifications:
+  email: false
+
+before_script:
+  - go install ./vendor/github.com/golangci/golangci-lint/cmd/golangci-lint
+
+script:
+  - golangci-lint run
+  - go test -v -race ./...
