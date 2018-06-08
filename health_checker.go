@@ -59,11 +59,13 @@ func newVaultHealthChecker(vaultBaseAddr string, checkInterval time.Duration,
 	}, nil
 }
 
-func (hc *vaultHealthChecker) run() error {
+func (hc *vaultHealthChecker) run() {
 	for {
 		req, err := http.NewRequest(http.MethodHead, hc.vaultAddr.String(), nil)
 		if err != nil {
-			return fmt.Errorf("error constructing request: %s", err)
+			hc.logger.Debug(fmt.Sprintf("error constructing request: %s", err))
+			time.Sleep(hc.checkInterval)
+			continue
 		}
 
 		resp, err := hc.client.Do(req)

@@ -29,7 +29,7 @@ func newTCPListener(addr string, standbyOK bool, logger log.Logger, statusChange
 	}
 }
 
-func (tl *tcpListener) run() error {
+func (tl *tcpListener) run() {
 	for {
 		status := <-tl.statusChange
 
