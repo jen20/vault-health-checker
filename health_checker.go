@@ -63,7 +63,7 @@ func (hc *vaultHealthChecker) run() error {
 	for {
 		req, err := http.NewRequest(http.MethodHead, hc.vaultAddr.String(), nil)
 		if err != nil {
-			return fmt.Errorf("error constructing request: %s")
+			return fmt.Errorf("error constructing request: %s", err)
 		}
 
 		resp, err := hc.client.Do(req)
