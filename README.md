@@ -39,6 +39,9 @@ Ideally, the NLB will eventually support HTTP health checks and this project wil
 - `VAULT_HEALTH_CHECK_STANDBY_UNHEALTHY` - Whether to consider Vault servers in the `standby` state as unhealthy. If any
   value is assigned to this variable, `standby` nodes are considered unhealthy - by default they are considered healthy.
 
+- `VAULT_HEALTH_CHECK_SKIP_VERIFY` - Setting this to true will cause the health checker to not verify your TLS cert for
+  cases like locally testing. The default is false.
+
 ### Building
 
 During development, `vault-health-checker` can be built using `go build`.

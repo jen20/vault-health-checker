@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/tls"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -35,7 +36,7 @@ type vaultHealthChecker struct {
 }
 
 func newVaultHealthChecker(vaultBaseAddr string, checkInterval time.Duration,
-	logger log.Logger, statusChange chan<- vaultStatus) (*vaultHealthChecker, error) {
+	logger log.Logger, statusChange chan<- vaultStatus, verifyTLS bool) (*vaultHealthChecker, error) {
 	vaultAddr, err := url.Parse(vaultBaseAddr)
 	if err != nil {
 		return nil, fmt.Errorf("invalid Vault base address: %s", err)
@@ -49,12 +50,20 @@ func newVaultHealthChecker(vaultBaseAddr string, checkInterval time.Duration,
 	query.Set("sealedcode", statusCodeString(vaultHealthCheckResponseSealed))
 	query.Set("uninitcode", statusCodeString(vaultHealthCheckResponseUninitialized))
 
+	client := cleanhttp.DefaultClient()
+
+	if !verifyTLS {
+		client.Transport.(*http.Transport).TLSClientConfig = &tls.Config{
+			InsecureSkipVerify: true,
+		}
+	}
+
 	return &vaultHealthChecker{
 		vaultAddr:      vaultAddr,
 		checkInterval:  checkInterval,
 		statusChange:   statusChange,
 		previousStatus: nil,
-		client:         cleanhttp.DefaultClient(),
+		client:         client,
 		logger:         logger,
 	}, nil
 }

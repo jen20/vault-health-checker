@@ -58,6 +58,11 @@ func main() {
 		logger.Error("Error parsing TCP address template %q: %s", tcpAddrRaw, err)
 		os.Exit(sysexits.Usage)
 	}
+	skipTLSEnv := os.Getenv("VAULT_HEALTH_CHECK_SKIP_VERIFY")
+	verifyTLS := true
+	if skipTLSEnv == "true" {
+		verifyTLS = false
+	}
 
 	standbyOK := true
 	if standbyUnhealthy != "" {
@@ -76,7 +81,7 @@ func main() {
 	fmt.Fprintf(os.Stderr, "   Treat Standby Nodes as Healthy?: %t\n", standbyOK)
 	fmt.Fprintf(os.Stderr, "\n==> NLB Health Checker Started! Log data will stream in below:\n\n")
 
-	healthChecker, err := newVaultHealthChecker(serverAddr, interval, logger, statusChannel)
+	healthChecker, err := newVaultHealthChecker(serverAddr, interval, logger, statusChannel, verifyTLS)
 	if err != nil {
 		logger.Error("Error constructing checker: %s", err)
 		os.Exit(1)
