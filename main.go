@@ -59,7 +59,7 @@ func main() {
 		os.Exit(sysexits.Usage)
 	}
 	verifyTLSEnv := os.Getenv("VAULT_HEALTH_CHECK_SKIP_VERIFY")
-  verifyTLS := true
+	verifyTLS := true
 	if verifyTLSEnv == "false" {
 		verifyTLS = false
 	}

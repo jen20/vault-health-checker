@@ -1,14 +1,14 @@
 package main
 
 import (
+	"crypto/tls"
 	"fmt"
 	"net/http"
 	"net/url"
-"crypto/tls"
 	"strconv"
 	"time"
 
-  "github.com/hashicorp/go-cleanhttp"
+	"github.com/hashicorp/go-cleanhttp"
 	log "github.com/hashicorp/go-hclog"
 )
 
@@ -26,7 +26,7 @@ func statusCodeString(statusCode int64) string {
 
 type vaultHealthChecker struct {
 	vaultAddr     *url.URL
-  verifyTLS     bool
+	verifyTLS     bool
 	checkInterval time.Duration
 
 	statusChange   chan<- vaultStatus
@@ -51,15 +51,15 @@ func newVaultHealthChecker(vaultBaseAddr string, checkInterval time.Duration,
 	query.Set("sealedcode", statusCodeString(vaultHealthCheckResponseSealed))
 	query.Set("uninitcode", statusCodeString(vaultHealthCheckResponseUninitialized))
 
-  client := &http.Client{
+	client := &http.Client{
 		Transport: cleanhttp.DefaultTransport(),
 	}
 
-  if verifyTLS == false {
-    client.Transport.(*http.Transport).TLSClientConfig = &tls.Config{
-      InsecureSkipVerify: true,
-    }
-  }
+	if verifyTLS == false {
+		client.Transport.(*http.Transport).TLSClientConfig = &tls.Config{
+			InsecureSkipVerify: true,
+		}
+	}
 
 	return &vaultHealthChecker{
 		vaultAddr:      vaultAddr,
