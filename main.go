@@ -58,9 +58,9 @@ func main() {
 		logger.Error("Error parsing TCP address template %q: %s", tcpAddrRaw, err)
 		os.Exit(sysexits.Usage)
 	}
-	verifyTLSEnv := os.Getenv("VAULT_HEALTH_CHECK_SKIP_VERIFY")
+	skipTLSEnv := os.Getenv("VAULT_HEALTH_CHECK_SKIP_VERIFY")
 	verifyTLS := true
-	if verifyTLSEnv == "false" {
+	if skipTLSEnv == "true" {
 		verifyTLS = false
 	}
 
