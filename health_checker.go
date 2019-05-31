@@ -26,7 +26,6 @@ func statusCodeString(statusCode int64) string {
 
 type vaultHealthChecker struct {
 	vaultAddr     *url.URL
-	verifyTLS     bool
 	checkInterval time.Duration
 
 	statusChange   chan<- vaultStatus
@@ -55,7 +54,7 @@ func newVaultHealthChecker(vaultBaseAddr string, checkInterval time.Duration,
 		Transport: cleanhttp.DefaultTransport(),
 	}
 
-	if verifyTLS == false {
+	if !verifyTLS {
 		client.Transport.(*http.Transport).TLSClientConfig = &tls.Config{
 			InsecureSkipVerify: true,
 		}
