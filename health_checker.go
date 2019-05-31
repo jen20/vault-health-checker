@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+"crypto/tls"
 	"strconv"
 	"time"
 
-	"github.com/hashicorp/go-cleanhttp"
+  "github.com/hashicorp/go-cleanhttp"
 	log "github.com/hashicorp/go-hclog"
 )
 
@@ -25,6 +26,7 @@ func statusCodeString(statusCode int64) string {
 
 type vaultHealthChecker struct {
 	vaultAddr     *url.URL
+  verifyTLS     bool
 	checkInterval time.Duration
 
 	statusChange   chan<- vaultStatus
@@ -35,7 +37,7 @@ type vaultHealthChecker struct {
 }
 
 func newVaultHealthChecker(vaultBaseAddr string, checkInterval time.Duration,
-	logger log.Logger, statusChange chan<- vaultStatus) (*vaultHealthChecker, error) {
+	logger log.Logger, statusChange chan<- vaultStatus, verifyTLS bool) (*vaultHealthChecker, error) {
 	vaultAddr, err := url.Parse(vaultBaseAddr)
 	if err != nil {
 		return nil, fmt.Errorf("invalid Vault base address: %s", err)
@@ -49,12 +51,22 @@ func newVaultHealthChecker(vaultBaseAddr string, checkInterval time.Duration,
 	query.Set("sealedcode", statusCodeString(vaultHealthCheckResponseSealed))
 	query.Set("uninitcode", statusCodeString(vaultHealthCheckResponseUninitialized))
 
+  client := &http.Client{
+		Transport: cleanhttp.DefaultTransport(),
+	}
+
+  if verifyTLS == false {
+    client.Transport.(*http.Transport).TLSClientConfig = &tls.Config{
+      InsecureSkipVerify: true,
+    }
+  }
+
 	return &vaultHealthChecker{
 		vaultAddr:      vaultAddr,
 		checkInterval:  checkInterval,
 		statusChange:   statusChange,
 		previousStatus: nil,
-		client:         cleanhttp.DefaultClient(),
+		client:         client,
 		logger:         logger,
 	}, nil
 }

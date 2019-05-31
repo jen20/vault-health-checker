@@ -1,0 +1,50 @@
+module github.com/jen20/vault-health-checker
+
+go 1.12
+
+require (
+	github.com/OpenPeeDeeP/depguard v0.0.0-20180601031515-f2dff4f73566
+	github.com/fatih/color v1.7.0
+	github.com/fsnotify/fsnotify v1.4.7
+	github.com/gogo/protobuf v1.0.0
+	github.com/golang/lint v0.0.0-20180428170328-470b6b0bb300
+	github.com/golangci/check v0.0.0-20180506172741-cfe4005ccda2
+	github.com/golangci/go-misc v0.0.0-20180506160021-a61b005a223b
+	github.com/golangci/goconst v0.0.0-20180507094131-b67b9035d29a
+	github.com/golangci/gocyclo v0.0.0-20180528144436-0a533e8fa43d
+	github.com/golangci/gofmt v0.0.0-20180506063654-2076e05ced53
+	github.com/golangci/golangci-lint v0.0.0-20180606205928-110f584ad9d3
+	github.com/golangci/govet v0.0.0-20180508130529-1a9ab8120ec9
+	github.com/golangci/maligned v0.0.0-20180506175553-b1d89398deca
+	github.com/golangci/revgrep v0.0.0-20180528115710-8a5b4160227a
+	github.com/golangci/unconvert v0.0.0-20180507085042-28b1c447d1f4
+	github.com/hashicorp/errwrap v0.0.0-20141028054710-7554cd9344ce
+	github.com/hashicorp/go-cleanhttp v0.0.0-20171218145408-d5fe4b57a186
+	github.com/hashicorp/go-hclog v0.0.0-20180402200405-69ff559dc25f
+	github.com/hashicorp/go-sockaddr v0.0.0-20180320115054-6d291a969b86
+	github.com/hashicorp/hcl v0.0.0-20180404174102-ef8a98b0bbce
+	github.com/inconshreveable/mousetrap v1.0.0
+	github.com/kisielk/gotool v1.0.0
+	github.com/magefile/mage v0.0.0-20180411170307-771ebed3d686
+	github.com/magiconair/properties v1.8.0
+	github.com/mattn/go-colorable v0.0.9
+	github.com/mattn/go-isatty v0.0.3
+	github.com/mitchellh/mapstructure v0.0.0-20180511142126-bb74f1db0675
+	github.com/nbutton23/zxcvbn-go v0.0.0-20171102151520-eafdab6b0663
+	github.com/pelletier/go-toml v1.2.0
+	github.com/sean-/sysexits v0.0.0-20171026162210-598690305aaa
+	github.com/sirupsen/logrus v1.0.5
+	github.com/spf13/afero v1.1.0
+	github.com/spf13/cast v1.2.0
+	github.com/spf13/cobra v0.0.3
+	github.com/spf13/jwalterweatherman v0.0.0-20180109140146-7c0cea34c8ec
+	github.com/spf13/pflag v1.0.1
+	github.com/spf13/viper v1.0.2
+	golang.org/x/crypto v0.0.0-20180606015541-b47b15873692
+	golang.org/x/sys v0.0.0-20180606202747-9527bec2660b
+	golang.org/x/text v0.3.0
+	golang.org/x/tools v0.0.0-20180607185951-4e38c85762ef
+	gopkg.in/yaml.v2 v2.2.1
+	sourcegraph.com/sourcegraph/go-diff v0.0.0-20171119081133-3f415a150aec
+	sourcegraph.com/sqs/pbtypes v0.0.0-20180604144634-d3ebe8f20ae4
+)

@@ -21,3 +21,6 @@ bin/
 
 # Goreleaser
 dist/
+
+# artifacts
+vault-health-checker
