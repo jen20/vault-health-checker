@@ -50,9 +50,7 @@ func newVaultHealthChecker(vaultBaseAddr string, checkInterval time.Duration,
 	query.Set("sealedcode", statusCodeString(vaultHealthCheckResponseSealed))
 	query.Set("uninitcode", statusCodeString(vaultHealthCheckResponseUninitialized))
 
-	client := &http.Client{
-		Transport: cleanhttp.DefaultTransport(),
-	}
+	client := cleanhttp.DefaultClient()
 
 	if !verifyTLS {
 		client.Transport.(*http.Transport).TLSClientConfig = &tls.Config{
