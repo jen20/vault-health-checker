@@ -3,13 +3,10 @@ sudo: false
 language: go
 
 go:
-  - 1.x
+  - 1.12.x
 
 git:
   depth: 1
-
-# Only build with the code in vendor/
-install: true
 
 notifications:
   email: false
