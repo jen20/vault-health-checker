@@ -47,6 +47,12 @@ func (tl *tcpListener) run() {
 				tl.logger.Info("Vault Status: Unhealthy (Standby)")
 				shouldRun = false
 			}
+		case vaultStatusDRSecondary:
+			tl.logger.Info("Vault Status: Healthy (Active DR Secondary)")
+			shouldRun = true
+		case vaultStatusPerformanceStandby:
+			tl.logger.Info("Vault Status: Healthy (Performance Standby)")
+			shouldRun = true
 		case vaultStatusUnhealthy:
 			tl.logger.Info("Vault Status: Unhealthy")
 			shouldRun = false

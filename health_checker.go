@@ -13,11 +13,12 @@ import (
 )
 
 const (
-	vaultHealthCheckResponseActive        = 200
-	vaultHealthCheckResponseStandby       = 429
-	vaultHealthCheckResponseDRSecondary   = 472
-	vaultHealthCheckResponseSealed        = 503
-	vaultHealthCheckResponseUninitialized = 501
+	vaultHealthCheckResponseActive             = 200
+	vaultHealthCheckResponseStandby            = 429
+	vaultHealthCheckResponseDRSecondary        = 472
+	vaultHealthCheckResponsePerformanceStandby = 473
+	vaultHealthCheckResponseSealed             = 503
+	vaultHealthCheckResponseUninitialized      = 501
 )
 
 func statusCodeString(statusCode int64) string {
@@ -47,6 +48,7 @@ func newVaultHealthChecker(vaultBaseAddr string, checkInterval time.Duration,
 	query.Set("activecode", statusCodeString(vaultHealthCheckResponseActive))
 	query.Set("standbycode", statusCodeString(vaultHealthCheckResponseStandby))
 	query.Set("drsecondarycode", statusCodeString(vaultHealthCheckResponseDRSecondary))
+	query.Set("performancestandbycode", statusCodeString(vaultHealthCheckResponsePerformanceStandby))
 	query.Set("sealedcode", statusCodeString(vaultHealthCheckResponseSealed))
 	query.Set("uninitcode", statusCodeString(vaultHealthCheckResponseUninitialized))
 
@@ -92,6 +94,10 @@ func (hc *vaultHealthChecker) run() {
 			hc.sendStatus(vaultStatusActive)
 		case vaultHealthCheckResponseStandby:
 			hc.sendStatus(vaultStatusStandby)
+		case vaultHealthCheckResponseDRSecondary:
+			hc.sendStatus(vaultStatusDRSecondary)
+		case vaultHealthCheckResponsePerformanceStandby:
+			hc.sendStatus(vaultStatusPerformanceStandby)
 		default:
 			hc.sendStatus(vaultStatusUnhealthy)
 		}
