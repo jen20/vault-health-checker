@@ -6,13 +6,21 @@ or (optionally) standby state, as determined by the Vault health check endpoint.
 
 ### Rationale
 
-[HashiCorp Vault][vault] exposes a health check located at the [`/v1/sys/health`] endpoint, which can be used for
+[HashiCorp Vault][vault] exposes a health check located at the [`/v1/sys/health`] [endpoint][vault_health_endpoint], which can be used for
 determining whether a particular instance is ready for service - in an active or standby state - or whether the instance
 is sealed or uninitialized.
 
-HTTP `HEAD` requests to the health check endpoint return a status code representing the health of the target instance
-- by default, `200` for an active node, `429` for a standby node, and `500`-range codes for sealed or uninitialized
-Vaults.
+HTTP `HEAD` requests to the health check endpoint return a status code representing the health of the target instance:
+
+| Code | Description              |
+| ---- | ------------------------ |
+| 200  | Active Node              |
+| 429  | Standby Node             |
+| 472  | Active DR Secondary Node |
+| 473  | Standby Performance Node |
+| 501  | Uninitialized            |
+| 503  | Sealed                   |
+
 
 Unfortunately, the AWS [NLB][nlb] does not support HTTP health checks, instead supporting only TCP checks. While TCP
 checks can be pointed at a Vault server, they cannot determine the actual health of the instance, and fill the logs of
@@ -54,6 +62,7 @@ repository. `goreleaser` must be available on `PATH`.
 Feedback, issues and pull requests are welcome!
 
 [vault]: https://github.com/hashicorp/vault
+[vault_health_endpoint]: https://www.vaultproject.io/api/system/health
 [nlb]: https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html
 [sockaddr]: https://github.com/hashicorp/go-sockaddr
 [duration]: https://golang.org/pkg/time/#ParseDuration
